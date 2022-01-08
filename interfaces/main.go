@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+type bot interface {
+	getGreeting() string
+}
+
 type englishBot struct {
 }
 
@@ -25,10 +29,18 @@ func (sb spanishBot) getGreeting() string {
 	return "Hola"
 }
 
+func printGreeting(b bot) {
+	fmt.Println(b.getGreeting())
+}
+
+/*
 func printGreeting(eb englishBot) {
 	fmt.Println(eb.getGreeting())
 }
+*/
 
+/* Redundant that's why use interface
 func printGreeting(sb spanishBot) {
 	fmt.Println(sb.getGreeting())
 }
+*/
