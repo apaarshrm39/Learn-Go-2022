@@ -4,18 +4,37 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 
 	"example.com/html/pkg/config"
 	"example.com/html/pkg/handlers"
 	"example.com/html/pkg/render"
+	"github.com/alexedwards/scs/v2"
 )
 
 // use const for portNumber
 const portNumber = ":8080"
 
+var app config.AppConfig
+
+var session *scs.SessionManager
+
 // main is the main application fuction
 func main() {
-	var app config.AppConfig
+
+	// initializing a session
+
+	// change this to true when in Production
+
+	app.InProduction = false
+
+	session = scs.New()
+	session.Lifetime = 12 * time.Hour              // ttl of cookie
+	session.Cookie.Persist = true                  // should the cookie persist after the user closes the browser
+	session.Cookie.SameSite = http.SameSiteLaxMode //default
+	session.Cookie.Secure = app.InProduction       //set as true in Prod
+
+	app.Session = session
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
