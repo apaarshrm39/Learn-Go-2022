@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
-	"log"
 	"net/http"
 	"path/filepath"
 
@@ -39,13 +38,14 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 		templateCache, _ = CreateTemplateCache()
 	}
 
-	t, ok := templateCache[tmpl]
-	if !ok {
-		log.Fatal("Could not get templates from template Cache")
-	}
+	t := templateCache[tmpl]
+	/*
+		if !ok {
+			log.Fatal("Could not get templates from template Cache")
+		}*/
 
 	// put the value of templates from memory to buffer
-	buf := new(bytes.Buffer)
+	buf := newFunction()
 	// Add default Data to TD
 	td = AddDefaultData(td)
 	_ = t.Execute(buf, td)
@@ -64,6 +64,11 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 			return
 		}
 	*/
+}
+
+func newFunction() *bytes.Buffer {
+	buf := new(bytes.Buffer)
+	return buf
 }
 
 func CreateTemplateCache() (map[string]*template.Template, error) {
