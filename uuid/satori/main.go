@@ -26,4 +26,4 @@ func foo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(cookie)
-}
+} #
